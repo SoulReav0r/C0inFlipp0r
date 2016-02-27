@@ -111,8 +111,12 @@ public class Gui extends JFrame {
 		//clientsFromBroker.put("test2", "127.0.0.1");
 		
 		if (Boolean.parseBoolean(this.prop.getProperty("client_useBroker"))) {
+			if (Boolean.parseBoolean(this.prop.getProperty("client_enableMD5"))){
+				java.security.Security.setProperty("jdk.tls.disabledAlgorithms", "SSLv3, DH keySize < 768");
+				java.security.Security.setProperty("jdk.certpath.disabledAlgorithms", "MD2, RSA keySize < 1024");	
+			}
 			final PingingService service = new HttpPingingService(this.prop.getProperty("client_brokerURL"), "", "",
-					this.prop.getProperty("client_brokerCert"), this.prop.getProperty("client_brokerCertPW"));
+			this.prop.getProperty("client_brokerCert"), this.prop.getProperty("client_brokerCertPW"));
 			this.clientsFromBroker = service.getPlayersDirectlyOverHttpGetRequest();
 		}
 		

@@ -41,6 +41,10 @@ public class GameServer {
 
 
 		if (Boolean.parseBoolean(prop.getProperty("server_useBroker"))) {
+			if (Boolean.parseBoolean(prop.getProperty("server_enableMD5"))){
+				java.security.Security.setProperty("jdk.tls.disabledAlgorithms", "SSLv3, DH keySize < 768");
+				java.security.Security.setProperty("jdk.certpath.disabledAlgorithms", "MD2, RSA keySize < 1024");	
+			}
 			try {
 				String address;
 				
